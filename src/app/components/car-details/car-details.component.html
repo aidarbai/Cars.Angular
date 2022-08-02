@@ -1,0 +1,73 @@
+<div class="mycarousel mt-4">
+  <p-carousel
+    *ngIf="images.length > 0"
+    [value]="images"
+    styleClass="custom-carousel"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [autoplayInterval]="3000"
+  >
+    <ng-template pTemplate="header">
+      <h5 class="text-center" style="color: aliceblue">
+        {{ car?.make }} {{ car?.model }} {{ car?.year }}
+      </h5>
+    </ng-template>
+    <ng-template let-image pTemplate="item">
+      <div class="product-item">
+        <div class="product-item-content mb-3">
+          <img src="{{ image }}" class="product-image" />
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>
+<div class="mycarousel p-6 flex flex-column">
+  <p-chip
+    label="{{ car?.make }}  {{ car?.model }} {{ car?.year }}"
+    styleClass="mb-2 blue-chip"
+  ></p-chip>
+  <p-chip label="VIN: {{ car?.vin }}" styleClass="mb-2 grey-chip"></p-chip>
+  <p-chip
+    label="{{ car?.price | currency: 'USD':'symbol':'1.0-0' }}"
+    styleClass="mb-2 green-chip"
+  ></p-chip>
+  <p-chip
+    label="Mileage: {{ car?.mileage }} miles"
+    styleClass="mb-2 grey-chip"
+  ></p-chip>
+</div>
+
+<!--
+  <Row md={4} lg={4} xl={4} className="mt-3">
+    <Col className="car-details">
+      <h4>
+        <Badge bg="primary">
+          {car.make} {car.model} {car.year}
+        </Badge>
+      </h4>
+      <p>
+        <Badge bg="secondary">VIN: {car.vin}</Badge>
+      </p>
+      <p>
+        <Badge bg="success">${car.price}</Badge>
+      </p>
+      <p>
+        <Badge bg="warning" text="dark">
+          Color: {car.color}
+        </Badge>
+      </p>
+      <p>
+        <Badge bg="secondary">Body: {car.bodyType}</Badge>
+      </p>
+      <p>
+        <Badge bg="secondary">Mileage: {car.mileage} miles</Badge>
+      </p>
+      <p>
+        <Badge bg="secondary">City: {car.city}</Badge>
+      </p>
+    </Col>
+  </Row>
+  </> : <h2>Loading</h2>}
+  {/* <GetSwiper></GetSwiper> */}
+</Container> -->

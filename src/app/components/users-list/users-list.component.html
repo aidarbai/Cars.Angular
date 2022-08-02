@@ -1,0 +1,122 @@
+<div class="content-section implementation">
+  <div class="card">
+    <div class="d-flex justify-content-between mt-2">
+      <h5 class="ml-3 mt-2 font-weight-bold">Users List</h5>
+      <button
+        type="button"
+        class="btn btn-primary mr-2 mb-2"
+        (click)="editUsers()"
+      >
+        Save
+      </button>
+    </div>
+    <p-table
+      #dt1
+      [value]="users"
+      selectionMode="single"
+      [(selection)]="selectedUser"
+      dataKey="id"
+      styleClass="p-datatable-customers"
+      responsiveLayout="scroll"
+      [rows]="10"
+      [paginator]="true"
+      stateStorage="session"
+      stateKey="statedemo-session"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="firstName">
+            First Name <p-sortIcon field="firstName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="lastName">
+            Last Name <p-sortIcon field="lastName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email">
+            E-mail <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th>Deleted</th>
+          <th style="text-align: center">Banned Time</th>
+          <th>Banned</th>
+        </tr>
+        <tr>
+          <th>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt1.filter($any($event.target)?.value, 'firstName', 'contains')
+              "
+              [value]="$any(dt1.filters['firstName'])?.value"
+              placeholder="Search by First Name"
+              class="p-column-filter"
+            />
+          </th>
+          <th>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt1.filter($any($event.target)?.value, 'lastName', 'contains')
+              "
+              [value]="$any(dt1.filters['lastName'])?.value"
+              placeholder="Search by Last Name"
+              class="p-column-filter"
+            />
+          </th>
+          <th>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt1.filter($any($event.target)?.value, 'email', 'contains')
+              "
+              [value]="$any(dt1.filters['email'])?.value"
+              placeholder="Search by email"
+              class="p-column-filter"
+            />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr [pSelectableRow]="user">
+          <td>
+            <span class="p-column-title">First Name</span>
+            {{ user.firstName }}
+          </td>
+          <td>
+            <span class="p-column-title">Last Name</span>
+            {{ user.lastName }}
+          </td>
+          <td>
+            <span class="p-column-title">E-mail</span>
+            {{ user.email }}
+          </td>
+          <td>
+            <span class="p-column-title">Deleted</span>
+            <p-inputSwitch [(ngModel)]="user.isDeleted"></p-inputSwitch>
+          </td>
+          <td>
+            <span class="p-column-title">Banned Time</span>
+            {{
+              user.bannedTime
+                ? (user.bannedTime + "Z" | date: "MMMM d, yyyy HH:mm")
+                : ""
+            }}
+          </td>
+          <td>
+            <span class="p-column-title">Banned</span>
+            <p-inputSwitch
+              [(ngModel)]="user.isBanned"
+              (onChange)="onBanChange($event.checked, user.id)"
+            ></p-inputSwitch>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4">No users found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

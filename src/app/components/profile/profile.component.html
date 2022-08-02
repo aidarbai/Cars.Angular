@@ -1,0 +1,100 @@
+<div class="container" *ngIf="currentUser; else loggedOut">
+  <div class="jumbotron">
+    <h3>
+      <strong>{{ currentUser.firstName }} {{ currentUser.lastName }}</strong>
+      Profile
+    </h3>
+
+    <p>
+      <strong>Email:</strong>
+      {{ currentUser.email }}
+    </p>
+
+    <p>
+      <strong>RefreshToken:</strong>
+      {{ currentUser.refreshToken }}
+    </p>
+
+    <strong>Roles:</strong>
+    <ul>
+      <li *ngFor="let role of currentUser.roles">
+        {{ role }}
+      </li>
+    </ul>
+
+    <p-button
+      type="button"
+      (click)="showDialog()"
+      icon="pi pi-key"
+      label="Change password"
+    ></p-button>
+
+    <p-dialog
+      header="Change password"
+      [(visible)]="display"
+      [modal]="true"
+      [style]="{ width: '50vw', height: 'auto' }"
+      [baseZIndex]="10000"
+      [draggable]="false"
+      [resizable]="false"
+    >
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h6>Old Password</h6>
+
+        <p-password
+          styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+          formControlName="oldPassword"
+          [ngClass]="{ 'is-invalid': submitted && f['oldPassword'].errors }"
+          [toggleMask]="true"
+        ></p-password>
+
+        <div
+          *ngIf="submitted && f['oldPassword'].errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f['oldPassword'].errors['required']">
+            Password is required
+          </div>
+        </div>
+
+        <div>
+          <h6 style="margin-top: 5px">New Password</h6>
+          <p-password
+            styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+            formControlName="newPassword"
+            [ngClass]="{ 'is-invalid': submitted && f['newPassword'].errors }"
+            [toggleMask]="true"
+            (keydown.enter)="onSubmit()"
+          ></p-password>
+          <div
+            *ngIf="submitted && f['newPassword'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['newPassword'].errors['required']">
+              New Password is required
+            </div>
+          </div>
+        </div>
+        <div>
+          <p-button type="submit" label="Submit" class="mt-5"></p-button>
+        </div>
+      </form>
+    </p-dialog>
+
+    <div style="margin-top: 15px">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="onOkDeleteAccount()"
+      >
+        Delete my account
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #loggedOut>
+  <h5 class="mt-6" style="color: aliceblue">
+    <strong>Please login.</strong>
+  </h5>
+</ng-template>
